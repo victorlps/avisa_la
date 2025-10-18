@@ -1,36 +1,51 @@
 plugins {
     id("com.android.application")
-    kotlin("android")
+    id("kotlin-android")
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id("dev.flutter.flutter-gradle-plugin")
 }
 
 android {
-    // Adjust namespace/applicationId as needed for your project
-    namespace = "com.example.avisa_la"
-    compileSdk = 33
-
-    defaultConfig {
-        applicationId = "com.example.avisa_la"
-        minSdk = 21
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
-    }
+    namespace = "com.micelioapp.avisa_la"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
         // Habilita core library desugaring exigido por alguns AARs (ex.: flutter_local_notifications)
         isCoreLibraryDesugaringEnabled = true
     }
 
-    // Kotlin JVM target
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId = "com.micelioapp.avisa_la"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig = signingConfigs.getByName("debug")
+        }
     }
 }
 
+// Adiciona dependência para core-library desugaring
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.21")
-    // Adiciona a biblioteca de desugaring necessária
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+}
+
+flutter {
+    source = "../.."
 }
